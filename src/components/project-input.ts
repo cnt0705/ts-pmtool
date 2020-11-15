@@ -1,9 +1,9 @@
-import { Component } from "./base-component.js";
-import { Validatable, validate } from "../util/validation.js";
-import { autobind } from "../decorators/autobind.js";
+import Cmp from "./base-component.js";
+import * as Validation from "../util/validation.js";
+import { autobind as Autobind } from "../decorators/autobind.js";
 import { projectState } from "../state/project-state.js";
 
-export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
+export class ProjectInput extends Cmp<HTMLDivElement, HTMLFormElement> {
   titleInputElement: HTMLInputElement;
   descriptionInputElement: HTMLInputElement;
   mandayInputElement: HTMLInputElement;
@@ -35,16 +35,16 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
     const enterdDescription = this.descriptionInputElement.value;
     const enterdManday = this.mandayInputElement.value;
 
-    const titleValidatable: Validatable = {
+    const titleValidatable: Validation.Validatable = {
       value: enterdTitle,
       required: true,
     };
-    const descriptionValidatable: Validatable = {
+    const descriptionValidatable: Validation.Validatable = {
       value: enterdDescription,
       required: true,
       minLength: 5,
     };
-    const mandayValidatable: Validatable = {
+    const mandayValidatable: Validation.Validatable = {
       value: +enterdManday,
       required: true,
       min: 1,
@@ -52,9 +52,9 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
     };
 
     if (
-      !validate(titleValidatable) ||
-      !validate(descriptionValidatable) ||
-      !validate(mandayValidatable)
+      !Validation.validate(titleValidatable) ||
+      !Validation.validate(descriptionValidatable) ||
+      !Validation.validate(mandayValidatable)
     ) {
       alert("入力値が不正です。");
       return;
@@ -69,7 +69,7 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
     this.mandayInputElement.value = "";
   }
 
-  @autobind
+  @Autobind
   private submitHandler(event: Event) {
     event.preventDefault();
     const userInput = this.gatherUserInput();
